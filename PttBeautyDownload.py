@@ -47,7 +47,7 @@ def get_contents(t):
     return(contents,titles,article_id)
 
 
-# In[36]:
+# In[42]:
 
 
 def download_urls(urls,article_id,index,article_num,folder):
@@ -59,14 +59,14 @@ def download_urls(urls,article_id,index,article_num,folder):
             downloader = ImgurDownloader(url,FOLDER,filename)
             if (not os.path.exists(folder+"/"+filename+".jpg")) and (not os.path.exists(folder+"/"+filename+".png")):
                 downloader.on_image_download(downloader.save_images())
-                connectSQL(filename+".j",article_id[article_num])
+                connectSQL(filename+".jpg",article_id[article_num])
                 print("save",filename)
             else:
                 print(filename,"already exist")
         j=j+1
 
 
-# In[41]:
+# In[43]:
 
 
 INDEX=FROM
@@ -87,7 +87,7 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[38]:
+# In[ ]:
 
 
 get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
