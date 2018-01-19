@@ -13,12 +13,12 @@ import re,os
 from connectSQL import *
 
 
-# In[33]:
+# In[40]:
 
 
-FROM=2250
+FROM=2200
 FOLDER="newDownload"
-TO=2200
+TO=2150
 
 
 # In[3]:
@@ -59,14 +59,14 @@ def download_urls(urls,article_id,index,article_num,folder):
             downloader = ImgurDownloader(url,FOLDER,filename)
             if (not os.path.exists(folder+"/"+filename+".jpg")) and (not os.path.exists(folder+"/"+filename+".png")):
                 downloader.on_image_download(downloader.save_images())
-                connectSQL(filename,article_id[article_num])
+                connectSQL(filename+".j",article_id[article_num])
                 print("save",filename)
             else:
                 print(filename,"already exist")
         j=j+1
 
 
-# In[ ]:
+# In[41]:
 
 
 INDEX=FROM
@@ -87,8 +87,8 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[27]:
+# In[38]:
 
 
-# !jupyter nbconvert --to script PttBeautyDownload.ipynb
+get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
 
