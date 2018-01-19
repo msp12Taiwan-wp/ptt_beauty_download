@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[31]:
 
 
 # -*- coding: MS950 -*-
@@ -10,14 +10,15 @@ from PttWebCrawler.crawler import *
 import codecs, json, os
 from imgurdownloader import *
 import re,os
+from connectSQL import *
 
 
-# In[23]:
+# In[33]:
 
 
-FROM=2340
+FROM=2250
 FOLDER="newDownload"
-TO=2300
+TO=2200
 
 
 # In[3]:
@@ -46,7 +47,7 @@ def get_contents(t):
     return(contents,titles,article_id)
 
 
-# In[25]:
+# In[36]:
 
 
 def download_urls(urls,article_id,index,article_num,folder):
@@ -58,13 +59,14 @@ def download_urls(urls,article_id,index,article_num,folder):
             downloader = ImgurDownloader(url,FOLDER,filename)
             if (not os.path.exists(folder+"/"+filename+".jpg")) and (not os.path.exists(folder+"/"+filename+".png")):
                 downloader.on_image_download(downloader.save_images())
+                connectSQL(filename,article_id[article_num])
                 print("save",filename)
             else:
                 print(filename,"already exist")
-    j=j+1
+        j=j+1
 
 
-# In[26]:
+# In[ ]:
 
 
 INDEX=FROM
@@ -85,8 +87,8 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[ ]:
+# In[27]:
 
 
-jupyter
+# !jupyter nbconvert --to script PttBeautyDownload.ipynb
 
