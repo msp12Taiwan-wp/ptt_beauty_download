@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[46]:
+# In[2]:
 
 
 # -*- coding: MS950 -*-
@@ -13,7 +13,7 @@ import re,os
 from connectSQL import *
 
 
-# In[47]:
+# In[4]:
 
 
 FROM=2200
@@ -21,7 +21,7 @@ FOLDER="newDownload"
 TO=2150
 
 
-# In[3]:
+# In[6]:
 
 
 def get_articles(index):
@@ -30,7 +30,7 @@ def get_articles(index):
     return (t)
 
 
-# In[4]:
+# In[7]:
 
 
 def get_contents(t):
@@ -47,7 +47,7 @@ def get_contents(t):
     return(contents,titles,article_id)
 
 
-# In[42]:
+# In[9]:
 
 
 def download_urls(urls,article_id,index,article_num,folder):
@@ -66,9 +66,11 @@ def download_urls(urls,article_id,index,article_num,folder):
             else:
                 print(filename,"already exist")
         j=j+1
+    disconnectSQL(conn)
+        
 
 
-# In[48]:
+# In[10]:
 
 
 INDEX=FROM
@@ -89,8 +91,8 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[45]:
+# In[ ]:
 
 
-# !jupyter nbconvert --to script PttBeautyDownload.ipynb
+get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
 
