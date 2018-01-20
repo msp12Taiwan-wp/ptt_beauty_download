@@ -21,6 +21,7 @@ def connectSQL():
 
 
 def insertSQL(conn,cursor,image_name,article_id):
+    ts = time.time()
     timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     SQLQuery="INSERT INTO api_picture(image_name,article_id,created_at) VALUES('%s','%s','%s')"%(image_name,article_id,timestamp)
     cursor.execute(SQLQuery)
