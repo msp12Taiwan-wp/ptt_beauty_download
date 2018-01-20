@@ -20,7 +20,7 @@ def connectSQL():
 
 
 def insertSQL(conn,cursor,image_name,article_id):
-    SQLQuery="""INSERT INTO PICTURE(IMAGE_NAME,SOURCE_URL)VALUES(%s,%s)"""
+    SQLQuery="""INSERT INTO api_picture('image_name','article_id') VALUES(%s,%s)"""
     cursor.execute(SQLQuery,(image_name,article_id))
     conn.commit()
 
