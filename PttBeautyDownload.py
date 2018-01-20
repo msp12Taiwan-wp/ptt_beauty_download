@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[46]:
+# In[2]:
 
 
 # -*- coding: MS950 -*-
@@ -11,10 +11,10 @@ import codecs, json, os
 from imgurdownloader import *
 import time
 import re,os,sys
-# from connectSQL import *
+from connectSQL import *
 import face_detect_faceapi_version as face_detect 
 
-# In[47]:
+# In[4]:
 
 
 FROM=2199
@@ -22,7 +22,7 @@ FOLDER="newDownload"
 TO=2150
 
 
-# In[3]:
+# In[6]:
 
 
 def get_articles(index):
@@ -31,7 +31,7 @@ def get_articles(index):
     return (t)
 
 
-# In[4]:
+# In[7]:
 
 
 def get_contents(t):
@@ -49,13 +49,13 @@ def get_contents(t):
     return(contents,titles,article_id)
 
 
-# In[42]:
+# In[9]:
 
 
 def download_urls(urls,article_id,index,article_num,folder):
     j=0
     paths=[]
-    # conn,cursor=connectSQL()
+    conn,cursor=connectSQL()
     for url in urls:
         if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
             filename=str(index)+"_"+str(article_num)+"_"+str(j)
@@ -71,14 +71,13 @@ def download_urls(urls,article_id,index,article_num,folder):
     for (path,filename) in paths:
         if os.path.isfile(path):
             if face_detect.detect_face_num(path,filename)==1:
-                pass
-                # insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
+                insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
             else:
                 os.remove(path)
-    #discoonnectAQL(conn)
+    discoonnectAQL(conn)
 
 
-# In[48]:
+# In[10]:
 
 
 INDEX=FROM
@@ -100,8 +99,8 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[45]:
+# In[ ]:
 
 
-# !jupyter nbconvert --to script PttBeautyDownload.ipynb
+get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
 
