@@ -59,20 +59,20 @@ def download_urls(urls,article_id,index,article_num,folder):
     paths=[]
     conn,cursor=connectSQL()
     for url in urls:
-        try:
-            if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
-                filename=str(index)+"_"+str(article_num)+"_"+str(j)
-                print("Processing image:",filename,url)
-                downloader = ImgurDownloader(url,FOLDER,filename)
-                if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
-                    downloader.on_image_download(downloader.save_images())
-                    paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename+downloader.imageIDs[0][1]))
-                    print("save",filename)
-                else:
-                    print(filename,"already exist")
-            j=j+1
-        except:
-            print("error")
+        # try:
+        if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
+            filename=str(index)+"_"+str(article_num)+"_"+str(j)
+            print("Processing image:",filename,url)
+            downloader = ImgurDownloader(url,FOLDER,filename)
+            if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
+                downloader.on_image_download(downloader.save_images())
+                paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename+downloader.imageIDs[0][1]))
+                print("save",filename)
+            else:
+                print(filename,"already exist")
+        j=j+1
+        # except:
+        #     print("error")
     for (path,filename) in paths:
         if os.path.isfile(path):
             if face_detect.detect_face_num(path,filename)==1:
