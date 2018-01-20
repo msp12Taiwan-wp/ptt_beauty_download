@@ -33,7 +33,7 @@ def detect_face_num(path,filename):
     except Exception as e:
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-    json_data=json.loads(data)
+    json_data=json.loads(data.decode('utf-8'))
     
     if type(json_data)==dict and 'error' in json_data.keys():
         return -1
