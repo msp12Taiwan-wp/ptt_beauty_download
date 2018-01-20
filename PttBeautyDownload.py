@@ -21,7 +21,8 @@ FROM=2199
 FOLDER="/home/wpvm/wp-api/pictures/static/img"
 TO=2150
 
-
+picture_num=0
+max_picture_num=500
 # In[6]:
 
 
@@ -57,21 +58,25 @@ def download_urls(urls,article_id,index,article_num,folder):
     paths=[]
     conn,cursor=connectSQL()
     for url in urls:
-        if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
-            filename=str(index)+"_"+str(article_num)+"_"+str(j)
-            print("Processing image:",filename,url)
-            downloader = ImgurDownloader(url,FOLDER,filename)
-            if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
-                downloader.on_image_download(downloader.save_images())
-                paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename))
-                print("save",filename)
-            else:
-                print(filename,"already exist")
-        j=j+1
+        try:
+            if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
+                filename=str(index)+"_"+str(article_num)+"_"+str(j)
+                print("Processing image:",filename,url)
+                downloader = ImgurDownloader(url,FOLDER,filename)
+                if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
+                    downloader.on_image_download(downloader.save_images())
+                    paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename))
+                    print("save",filename)
+                else:
+                    print(filename,"already exist")
+            j=j+1
+        except :
+            print ("error")
     for (path,filename) in paths:
         if os.path.isfile(path):
             if face_detect.detect_face_num(path,filename)==1:
                 insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
+                picture_num+=1
             else:
                 os.remove(path)
     disconnectSQL(conn)
@@ -97,10 +102,7 @@ while(INDEX>TO):
     INDEX=INDEX-1
     if INDEX!=FROM:
         os.remove(t)
-
-
-# In[ ]:
-
-
-get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
+    if picture_num>max_picture_num:
+        break
+print('complete download %d picture'%(picture_num))
 

@@ -12,7 +12,7 @@ import datetime
 
 
 def connectSQL():
-    conn = MySQLdb.connect(host='127.0.0.1',port=3306,user='beautyuser',passwd='beauty1234',db='beautydb')
+    conn = MySQLdb.connect(host='127.0.0.1',port=3306,user='root',passwd='',db='beauty')
     cursor=conn.cursor()
     return(conn,cursor)
 
@@ -23,7 +23,7 @@ def connectSQL():
 def insertSQL(conn,cursor,image_name,article_id):
     ts = time.time()
     timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    SQLQuery="INSERT INTO api_picture(image_name,article_id,created_at) VALUES('%s','%s','%s')"%(image_name,article_id,timestamp)
+    SQLQuery="INSERT INTO images(image_name,article_id,created_at) VALUES('%s','%s','%s')"%(image_name,article_id,timestamp)
     cursor.execute(SQLQuery)
     conn.commit()
 
