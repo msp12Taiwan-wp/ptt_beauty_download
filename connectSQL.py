@@ -6,7 +6,7 @@
 
 import MySQLdb
 import time
-
+import datetime
 
 # In[3]:
 
@@ -21,7 +21,8 @@ def connectSQL():
 
 
 def insertSQL(conn,cursor,image_name,article_id):
-    SQLQuery="INSERT INTO api_picture(image_name,article_id,created_at) VALUES('%s','%s','%s')"%(image_name,article_id,time.localtime())
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    SQLQuery="INSERT INTO api_picture(image_name,article_id,created_at) VALUES('%s','%s','%s')"%(image_name,article_id,timestamp)
     cursor.execute(SQLQuery)
     conn.commit()
 
