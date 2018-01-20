@@ -76,7 +76,7 @@ def download_urls(urls,article_id,index,article_num,folder):
     for (path,filename) in paths:
         if os.path.isfile(path):
             if face_detect.detect_face_num(path,filename)==1:
-                insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
+                insertSQL(conn,cursor,filename,article_id[article_num])
                 global picture_num
                 picture_num+=1
             else:
