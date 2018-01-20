@@ -74,7 +74,7 @@ def download_urls(urls,article_id,index,article_num,folder):
                 insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
             else:
                 os.remove(path)
-    discoonnectSQL(conn)
+    disconnectSQL(conn)
 
 
 # In[10]:

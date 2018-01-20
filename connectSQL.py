@@ -38,27 +38,4 @@ def disconnectSQL(conn):
     
 
 
-# In[ ]:
-
-
-conn,cursor=connectSQL()
-
-
-# In[10]:
-
-
-
-insertSQL(conn,cursor,"imagename","id")
-
-
-# In[9]:
-
-
-disconnectSQL(conn)
-
-
-# In[35]:
-
-
-#get_ipython().system('jupyter nbconvert --to script connectSQL.ipynb')
 
