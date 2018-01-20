@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[31]:
+# In[46]:
 
 
 # -*- coding: MS950 -*-
@@ -13,7 +13,7 @@ import re,os
 from connectSQL import *
 
 
-# In[40]:
+# In[47]:
 
 
 FROM=2200
@@ -52,6 +52,7 @@ def get_contents(t):
 
 def download_urls(urls,article_id,index,article_num,folder):
     j=0
+    conn,cursor=connectSQL()
     for url in urls:
         if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
             filename=str(index)+"_"+str(article_num)+"_"+str(j)
@@ -59,14 +60,15 @@ def download_urls(urls,article_id,index,article_num,folder):
             downloader = ImgurDownloader(url,FOLDER,filename)
             if (not os.path.exists(folder+"/"+filename+".jpg")) and (not os.path.exists(folder+"/"+filename+".png")):
                 downloader.on_image_download(downloader.save_images())
-                connectSQL(filename+".jpg",article_id[article_num])
+                insertSQL(conn,cursor,filename+".jpg",article_id[article_num])
+#                 connectSQL(filename+".jpg",article_id[article_num])
                 print("save",filename)
             else:
                 print(filename,"already exist")
         j=j+1
 
 
-# In[43]:
+# In[48]:
 
 
 INDEX=FROM
@@ -87,8 +89,8 @@ while(INDEX>TO):
         os.remove(t)
 
 
-# In[ ]:
+# In[45]:
 
 
-get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
+# !jupyter nbconvert --to script PttBeautyDownload.ipynb
 
