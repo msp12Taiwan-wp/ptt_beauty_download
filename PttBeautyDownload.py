@@ -21,6 +21,7 @@ FROM=2199
 FOLDER="/home/wpvm/wp-api/pictures/static/img"
 TO=2150
 
+global picture_num
 picture_num=0
 max_picture_num=500
 # In[6]:
@@ -65,7 +66,7 @@ def download_urls(urls,article_id,index,article_num,folder):
                 downloader = ImgurDownloader(url,FOLDER,filename)
                 if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
                     downloader.on_image_download(downloader.save_images())
-                    paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename))
+                    paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename+downloader.imageIDs[0][1]))
                     print("save",filename)
                 else:
                     print(filename,"already exist")
@@ -76,6 +77,7 @@ def download_urls(urls,article_id,index,article_num,folder):
         if os.path.isfile(path):
             if face_detect.detect_face_num(path,filename)==1:
                 insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
+                global picture_num
                 picture_num+=1
             else:
                 os.remove(path)
