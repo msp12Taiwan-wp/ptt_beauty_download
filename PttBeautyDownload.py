@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[31]:
+# In[46]:
 
 
 # -*- coding: MS950 -*-
@@ -14,10 +14,10 @@ import re,os,sys
 # from connectSQL import *
 import face_detect_faceapi_version as face_detect 
 
-# In[40]:
+# In[47]:
 
 
-FROM=2200
+FROM=2199
 FOLDER="newDownload"
 TO=2150
 
@@ -35,8 +35,9 @@ def get_articles(index):
 
 
 def get_contents(t):
-    with open(t, 'r',encoding = 'utf8') as f:
-        data=json.load(f)
+    with open(t, 'r',encoding = 'utf-8') as f:
+        s=f.read()
+        data=json.loads(s)
     contents=[]
     titles=[]
     article_id=[]
@@ -50,29 +51,34 @@ def get_contents(t):
 
 # In[42]:
 
+
 def download_urls(urls,article_id,index,article_num,folder):
     j=0
+    paths=[]
+    # conn,cursor=connectSQL()
     for url in urls:
         if url.startswith(('https://i.imgur','http://i.imgur','https://imgur','http://imgur')):# or url.startswith('http://imgur') or url.startswith('https://imgur') or url.startswith('http://i.imgur'):
             filename=str(index)+"_"+str(article_num)+"_"+str(j)
             print("Processing image:",filename,url)
             downloader = ImgurDownloader(url,FOLDER,filename)
-            path=folder+'/'+filename+downloader.imageIDs[0][1]
-            if (not os.path.exists(path)) and (not os.path.exists(path)):
-                try:
-                    downloader.save_images()
-                    # connectSQL(filename+'.'+url.split('.')[-1],article_id[article_num])
-                    count_face(path)
-                except Exception as e:
-                    print('face_api or download error')
-                    if os.path.isfile(path):
-                        os.remove(path)
+            if (not os.path.exists(folder+"/"+filename+downloader.imageIDs[0][1])) and (not os.path.exists(folder+"/"+filename+".png")):
+                downloader.on_image_download(downloader.save_images())
+                paths.append((folder+"/"+filename+downloader.imageIDs[0][1],filename))
+                print("save",filename)
             else:
                 print(filename,"already exist")
         j=j+1
+    for (path,filename) in paths:
+        if os.path.isfile(path):
+            if face_detect.detect_face_num(path,filename)==1:
+                pass
+                # insertSQL(conn,cursor,filename+downloader.imageIDs[0][1],article_id[article_num])
+            else:
+                os.remove(path)
+    #discoonnectAQL(conn)
 
 
-# In[43]:
+# In[48]:
 
 
 INDEX=FROM
@@ -88,13 +94,14 @@ while(INDEX>TO):
             print("start article:",titles[i])
             download_urls(urls,article_id,INDEX,i,FOLDER)
         i=i+1
+    
     INDEX=INDEX-1
     if INDEX!=FROM:
         os.remove(t)
 
 
-# In[ ]:
+# In[45]:
 
 
-get_ipython().system('jupyter nbconvert --to script PttBeautyDownload.ipynb')
+# !jupyter nbconvert --to script PttBeautyDownload.ipynb
 

@@ -18,7 +18,7 @@ headers = {
     'Ocp-Apim-Subscription-Key': key,
 }
 
-def detect_face_num(path):
+def detect_face_num(path,filename):
     image=cv2.imread(path)
     f = open(path, "rb")
     body = f.read()
@@ -34,10 +34,14 @@ def detect_face_num(path):
         print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
     json_data=json.loads(data)
+    
+    if type(json_data)==dict and 'error' in json_data.keys():
+        return -1
     l=len(json_data)
     if l!=1:
         return l
     face = json_data[0]
+    face['faceId']=filename
     f=open('face_position.json','a')
     f.write(json.dumps(face)+'\n')
     f.close()
