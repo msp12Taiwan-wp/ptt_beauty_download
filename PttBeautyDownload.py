@@ -9,9 +9,10 @@ import unittest
 from PttWebCrawler.crawler import *
 import codecs, json, os
 from imgurdownloader import *
-import re,os
-from connectSQL import *
-
+import time
+import re,os,sys
+# from connectSQL import *
+import face_detect_faceapi_version as face_detect 
 
 # In[40]:
 
@@ -49,7 +50,6 @@ def get_contents(t):
 
 # In[42]:
 
-
 def download_urls(urls,article_id,index,article_num,folder):
     j=0
     for url in urls:
@@ -57,10 +57,16 @@ def download_urls(urls,article_id,index,article_num,folder):
             filename=str(index)+"_"+str(article_num)+"_"+str(j)
             print("Processing image:",filename,url)
             downloader = ImgurDownloader(url,FOLDER,filename)
-            if (not os.path.exists(folder+"/"+filename+".jpg")) and (not os.path.exists(folder+"/"+filename+".png")):
-                downloader.on_image_download(downloader.save_images())
-                connectSQL(filename+".jpg",article_id[article_num])
-                print("save",filename)
+            path=folder+'/'+filename+downloader.imageIDs[0][1]
+            if (not os.path.exists(path)) and (not os.path.exists(path)):
+                try:
+                    downloader.save_images()
+                    # connectSQL(filename+'.'+url.split('.')[-1],article_id[article_num])
+                    count_face(path)
+                except Exception as e:
+                    print('face_api or download error')
+                    if os.path.isfile(path):
+                        os.remove(path)
             else:
                 print(filename,"already exist")
         j=j+1
