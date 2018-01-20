@@ -18,7 +18,7 @@ import face_detect_faceapi_version as face_detect
 
 
 FROM=2199
-FOLDER="newDownload"
+FOLDER="/home/wpvm/wp-api/pictures/static/img"
 TO=2150
 
 
