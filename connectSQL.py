@@ -11,7 +11,7 @@ import MySQLdb
 
 
 def connectSQL():
-    conn = MySQLdb.connect(host='127.0.0.1',port=3306,user='root',passwd='',db='try_ptt_beauty')
+    conn = MySQLdb.connect(host='127.0.0.1',port=3306,user='beautyuser',passwd='beauty1234',db='beautydb')
     cursor=conn.cursor()
     return(conn,cursor)
 
@@ -57,5 +57,5 @@ disconnectSQL(conn)
 # In[35]:
 
 
-get_ipython().system('jupyter nbconvert --to script connectSQL.ipynb')
+#get_ipython().system('jupyter nbconvert --to script connectSQL.ipynb')
 
