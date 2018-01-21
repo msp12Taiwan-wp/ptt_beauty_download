@@ -7,7 +7,7 @@ facepPsitions=open('face_position.json','r')
 mypath = "/www/LaravelBeauty/public/images"
 
 
-def split_face (mypath,filename,x, y):
+def split_face (mypath,filename,x, y,w,h):
     image=cv2.imread(join(mypath,filename))
     # print(image)
     scale=1.2
@@ -52,5 +52,5 @@ for j in facepPsitions.readlines():
     face=json.loads(j)
     (x, y, w, h)=(face['faceRectangle']['left'],face['faceRectangle']['top'],face['faceRectangle']['width'],face['faceRectangle']['height'])
     filename=face['faceId']
-    split_face(mypath,filename,x, y)
+    split_face(mypath,filename,x, y,w,h)
     preprocess(mypath,filename,int(x+w/2),int(y+h/2))
