@@ -38,6 +38,12 @@ def load_data_CNN():
     x_train=np.array(x_train,dtype=float)
     y_train=np.array(y_train,dtype=float)
     y_train=(y_train-y_train.min(0))/(y_train.max(0)-y_train.min(0))
+    for i in range(0,len(y_train)):
+        for j in range(0,len(y_train[i])):
+            if y_train[i][j]>0.5:
+                y_train[i][j]=1
+            else:
+                y_train[i][j]=0
     x_train = x_train.reshape(x_train.shape[0], 64, 64, 3)
     #x_test = x_test.reshape(x_test.shape[0], 25, 25, 1)
     x_train = x_train.astype('float32')
