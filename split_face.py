@@ -4,7 +4,6 @@ import sys,os
 from os.path import isfile, isdir, join
 facepPsitions=open('face_position.json','r')
 
-# 指定要列出所有檔案的目錄
 mypath = "/www/LaravelBeauty/public/images"
 
 
