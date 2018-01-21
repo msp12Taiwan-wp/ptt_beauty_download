@@ -23,7 +23,8 @@ def split_face (mypath,filename,x, y,w,h):
     else:
         x=int(x-w*eps)
     face=image[y:y+h,x:x+w]
-    cv2.resize
+    cv2.resize(face,(128,128))
+    print(join('/home/hausung1998/trainingData/face',filename))
     cv2.imwrite(join('/home/hausung1998/trainingData/face',filename),face)
 
 def preprocess(mypath,filename,x, y):
@@ -43,7 +44,7 @@ def preprocess(mypath,filename,x, y):
     else:
         x=int(x-length/2)
     preprocessImage=image[y:y+length,x:x+length]
-    cv2.resize
+    cv2.resize(preprocessImage,(256,256))
     cv2.imwrite(join('/home/hausung1998/trainingData/entireImage',filename),preprocessImage)
 
 
