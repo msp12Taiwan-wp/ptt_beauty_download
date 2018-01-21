@@ -32,14 +32,12 @@ def load_data_CNN():
             else:
                 tmp_list[feature-1]=0
         y_train.append(tmp_list)
-        x_train.append(cv2.imread('/home/hausung1998/trainingData/entireImage/%s'%(filename)))
-
-
+        image=cv2.imread('/home/hausung1998/trainingData/entireImage/%s'%(filename))
+        image=cv2.resize(image,(64*64))
+        x_train.append(image)
     x_train=np.array(x_train,dtype=float)
     y_train=np.array(y_train,dtype=float)
-
     y_train=(y_train-y_train.min(0))/(y_train.max(0)-y_train.min(0))
-
     x_train = x_train.reshape(x_train.shape[0], 256, 256, 3)
     #x_test = x_test.reshape(x_test.shape[0], 25, 25, 1)
     x_train = x_train.astype('float32')
