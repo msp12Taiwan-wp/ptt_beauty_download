@@ -33,7 +33,7 @@ def load_data_CNN():
                 tmp_list[feature-1]=0
         y_train.append(tmp_list)
         image=cv2.imread('/home/hausung1998/trainingData/entireImage/%s'%(filename))
-        image=cv2.resize(image,(64*64))
+        image=cv2.resize(image,(64,64))
         x_train.append(image)
     x_train=np.array(x_train,dtype=float)
     y_train=np.array(y_train,dtype=float)
