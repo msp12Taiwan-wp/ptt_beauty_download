@@ -38,18 +38,16 @@ def load_data_CNN():
     x_train=np.array(x_train,dtype=float)
     y_train=np.array(y_train,dtype=float)
 
-    mn=y_train.min(1)
-    mx=y_train.max(1)
-    y_train[:,0]=(y_train[:,0]-mn)/(mx-mn)
+    y_train=(y_train-y_train.min(0))/(y_train.max(0)-y_train.min(0))
 
     x_train = x_train.reshape(x_train.shape[0], 256, 256, 3)
     #x_test = x_test.reshape(x_test.shape[0], 25, 25, 1)
-    # x_train = x_train.astype('float32')
+    x_train = x_train.astype('float32')
     x_train = x_train/255
     #x_test = x_test.astype('float32')
     #x_test = x_test/255
     #y_train = np_utils.to_categorical(y_train, 36)
-    # y_train = y_train.astype('float32')
+    y_train = y_train.astype('float32')
     #y_test = np_utils.to_categorical(y_test, 26)
     return (x_train, y_train)#, (x_test, y_test)
 
@@ -69,7 +67,7 @@ model.add(MaxPooling2D(pool_size = (2, 2)))
 model.add(Flatten())
 
 model.add(Dense(units = 128, activation = 'relu'))
-model.add(Dense(units = 6, activation='softmax'))
+model.add(Dense(units = 4, activation='softmax'))
 
 model.compile(loss = 'categorical_crossentropy',
               optimizer = SGD(lr = 0.2),
