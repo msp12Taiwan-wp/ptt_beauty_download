@@ -38,7 +38,7 @@ def load_data_CNN():
     x_train=np.array(x_train,dtype=float)
     y_train=np.array(y_train,dtype=float)
     y_train=(y_train-y_train.min(0))/(y_train.max(0)-y_train.min(0))
-    x_train = x_train.reshape(x_train.shape[0], 256, 256, 3)
+    x_train = x_train.reshape(x_train.shape[0], 64, 64, 3)
     #x_test = x_test.reshape(x_test.shape[0], 25, 25, 1)
     x_train = x_train.astype('float32')
     x_train = x_train/255
@@ -54,7 +54,7 @@ def load_data_CNN():
 
 model = Sequential()
 
-model.add(Conv2D(32, (5, 5), input_shape = (256, 256, 3)))
+model.add(Conv2D(32, (5, 5), input_shape = (64, 64, 3)))
 
 model.add(MaxPooling2D(pool_size = (2, 2)))
 
